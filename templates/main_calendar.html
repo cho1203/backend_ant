@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANT TOGETHER - 캘린더</title>
+    <style>
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .header {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #0E0E0E;
+            border-radius: 15px;
+        }
+        .user-info {
+            background: #0E0E0E;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .logout-btn {
+            background: #fff;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background: #f0f0f0;
+        }
+        .login-btn {
+            background: #007bff;
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 20px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .login-btn:hover {
+            background: #0056b3;
+        }
+        .calendar-placeholder {
+            background: #0E0E0E;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐜 ANT TOGETHER</h1>
+            <h2>캘린더 메인 페이지</h2>
+        </div>
+        
+        {% if user %}
+        <div class="user-info">
+            <h3>✅ 로그인 성공!</h3>
+            <h3>환영합니다, <strong>{{ user.username }}</strong>님!</h3>
+            <p>📧 이메일: {{ user.email }}</p>
+            <p>📅 가입일: {{ user.created_at.strftime('%Y년 %m월 %d일') }}</p>
+            {% if user.last_login %}
+                <p>🕐 마지막 로그인: {{ user.last_login.strftime('%Y-%m-%d %H:%M') }}</p>
+            {% endif %}
+            
+            <a href="{{ url_for('auth.logout') }}" class="logout-btn">로그아웃</a>
+        </div>
+        {% endif %}
+        
+        <div class="calendar-placeholder">
+            <h3>🚧 캘린더 기능 개발 중 🚧</h3>
+            <p><strong>✅ 로그인 시스템 구현 완료!</strong></p>
+            <p>다음 단계: 실제 캘린더 기능 구현</p>
+            
+            <div style="margin-top: 30px;">
+                <h4>🧪 테스트 완료된 기능들:</h4>
+                <ul style="text-align: left; display: inline-block;">
+                    <li>✅ 회원가입</li>
+                    <li>✅ 이메일 인증</li>
+                    <li>✅ 로그인/로그아웃</li>
+                    <li>✅ 아이디 찾기</li>
+                    <li>✅ 비밀번호 찾기/재설정</li>
+                    <li>✅ 로그인 유지 기능</li>
+                </ul>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <a href="{{ url_for('auth.logout') }}" class="login-btn">로그아웃 후 로그인 테스트</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

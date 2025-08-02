@@ -1,0 +1,203 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #111;
+  color: #fff;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 360px;
+  height: 780px;
+  background-color: #0E0E0E;
+  border-radius: 30px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+/* ANT TOGETHER 로고 이미지 */
+.logo-image {
+  width: 280px; /* 200px에서 280px로 증가 */
+  height: auto;
+  margin: 40px 0 40px; /* 위쪽 여백도 조금 줄여서 더 크게 보이도록 */
+  /* 이미지가 검은 배경에 흰 글씨라서 그대로 사용 */
+}
+
+/* 입력 박스 */
+.input-box {
+  background: #ffffff;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  margin-bottom: 15px;
+  width: 85%;
+}
+
+.input-box i {
+  color: #666;
+  margin-right: 12px;
+  width: 16px;
+}
+
+.input-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  color: #000;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.input-box input::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+/* 버튼들 */
+.btn {
+  border: none;
+  width: 35%;
+  padding: 12px;
+  border-radius: 25px;
+  font-weight: bold;
+  margin: 15px auto 25px auto;
+  cursor: pointer;
+  font-size: 1rem;
+  display: block;
+  text-decoration: none;
+  text-align: center;
+}
+
+.login-btn {
+  background: #fff;
+  color: #000;
+}
+
+.login-btn:hover {
+  background: #f0f0f0;
+}
+
+/* 옵션들 */
+.options {
+  font-size: 0.85rem;
+  color: #aaa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+.options label {
+  color: #aaa;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.options input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.options a {
+  color: #4A90E2;
+  text-decoration: none;
+}
+
+.options a:hover {
+  text-decoration: underline;
+}
+
+/* 소셜 로그인 */
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.social-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  overflow: hidden;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
+}
+
+.social-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* 개별 소셜 아이콘 배경색 */
+.social-icon.naver { 
+  background: #03C75A; 
+  color: white;
+}
+
+.social-icon.kakao { 
+  background: #FEE500; 
+  color: black;
+}
+
+.social-icon.google { 
+  background: #4285F4; 
+  color: white;
+}
+
+.social-icon.apple { 
+  background: #000; 
+  border: 2px solid #333; 
+  color: white;
+}
+
+/* 회원가입 */
+.signup {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.signup a {
+  color: #fff;
+  text-decoration: underline;
+  font-size: 0.9rem;
+}
+
+.signup a:hover {
+  color: #ccc;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 400px) {
+  .container {
+    width: 90%;
+    height: auto;
+    min-height: 700px;
+  }
+  
+  .logo-image {
+    width: 160px;
+  }
+}

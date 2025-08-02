@@ -1,0 +1,411 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  background-color: #fff;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.calendar-container {
+  width: 393px;
+  height: 852px;
+  border-radius: 30px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-top: 50px;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.left-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.main-button {
+  border: 1px solid #000;
+  background: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.menu-icon {
+  font-size: 1.2rem;
+}
+
+.date-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.year, .month {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1.5rem;
+}
+
+.social-img {
+  width: 8px;
+  height: auto;
+}
+
+.navigation {
+  text-align: center;
+  margin: 10px 0;
+  position: relative;
+}
+
+.arrow {
+  font-size: 1.5rem;
+  position: absolute;
+  top: -30px;
+  cursor: pointer;
+}
+
+.arrow.left {
+  left: 0;
+}
+
+.arrow.right {
+  right: 0;
+}
+
+.weekdays, .days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-top: 50px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.weekdays {
+  color: #666;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.days-grid {
+  margin-top: 10px;
+  row-gap: 10px;
+  font-weight: normal;
+}
+
+.day {
+  height: 90px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.day:hover {
+  background-color: #eee;
+}
+
+.day.today {
+  color: red;
+  font-weight: bold;
+}
+
+.day.inactive {
+  color: #ccc;
+}
+
+.clickable {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
+  z-index: 10;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 15px;
+  z-index: 11;
+  display: none;
+  text-align: center;
+  width: 250px;
+}
+
+.popup h3 {
+  margin-top: 0;
+}
+
+.picker select {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 8px;
+  font-size: 1rem;
+}
+
+.picker button {
+  padding: 8px 15px;
+  font-weight: bold;
+  border: none;
+  background-color: #222;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+
+.text-icon {
+  display: flex;
+  align-items: center;     /* 수직 가운데 정렬 */
+  gap: 5px;                /* 텍스트와 아이콘 사이 간격 */
+}
+
+.year-text {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.dropdown-icon {
+  width: 16px;             /* 아이콘 크기 */
+  height: auto;
+  opacity: 0.4;            /* 흐릿한 효과 */
+}
+
+.day.selected {
+  background-color: #222;   /* 선택 시 배경 진하게 */
+  color: #fff;              /* 텍스트 흰색 */
+  border-radius: 0%;       /* 원형 강조 (선택사항) */
+}
+
+/* 오버레이 */
+.schedule-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+  display: none;
+}
+
+/* 팝업 모달 */
+.schedule-popup {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  max-width: 393px;
+  height: 80%;
+  background-color: #000;
+  border-radius: 25px 25px 0 0;
+  color: #fff;
+  padding: 20px;
+  z-index: 51;
+  transition: bottom 0.4s ease;
+}
+
+.schedule-popup.active {
+  bottom: 0;
+}
+
+/* 상단 */
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn, .check-btn {
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+/* 내용 */
+.popup-content {
+  margin-top: 20px;
+}
+
+.color-button {
+  background-color: #d88c95;
+  border: none;
+  border-radius: 12px;
+  padding: 4px 10px;
+  color: white;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.add-item {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.circle {
+  font-size: 1rem;
+  margin-right: 5px;
+}
+
+/* 입력 칸 */
+.input-row {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.input-row input {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.plus-btn {
+  margin-left: 10px;
+  background-color: white;
+  color: black;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.4rem;
+  border: none;
+  cursor: pointer;
+}
+
+.img-point{
+  width: 20px;
+  height: auto;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 15px;
+  border-radius: 10px;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+}
+
+.day::first-line {
+  font-weight: bold;
+}
+
+.label-container {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+/* 라벨 하나 */
+.label {
+  font-size: 11px;
+  color: white;
+  background-color: #2196f3;
+  padding: 2px 4px;
+  border-radius: 3px;
+  margin-top: 2px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.popup-content input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.schedule-list-container {
+  margin-top: 15px;
+  padding: 10px;
+  background: #000000;
+  border-radius: 10px;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.schedule-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.schedule-list li {
+  padding: 2px 0;
+  border-bottom: 1px solid #000000;
+}
+
+.schedule-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.9rem;
+}
+
+.schedule-color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.schedule-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.schedule-alarm {
+  font-size: 0.75rem;
+  color: #666;
+}
+
