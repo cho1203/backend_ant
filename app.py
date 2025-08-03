@@ -1,5 +1,5 @@
-from flask import Flask, render_template, redirect, url_for
-from flask_login import LoginManager, current_user
+from flask import Flask, render_template, redirect, url_for, session
+from flask_login import LoginManager, current_user, logout_user
 from dotenv import load_dotenv
 import os
 import logging
@@ -46,10 +46,14 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/auth')
     app.register_blueprint(main)
     
-    # 메인 라우트 - 항상 로그인 페이지로
+    # 메인 라우트 - 무조건 로그인 페이지로 (강제 로그아웃)
     @app.route('/')
     def index():
-        # 로그인 상태와 상관없이 항상 로그인 페이지로 이동
+        # 모든 세션 데이터 삭제
+        session.clear()
+        # 강제 로그아웃
+        logout_user()
+        # 로그인 페이지로 리다이렉트
         return redirect(url_for('auth.login'))
     
     # 간단한 에러 핸들러

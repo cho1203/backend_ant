@@ -8,14 +8,14 @@ auth = Blueprint('auth', __name__)
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     """로그인 처리 - 기존 login.html 그대로 사용"""
-    if current_user.is_authenticated:
-        return redirect(url_for('main.calendar'))
+    # if current_user.is_authenticated:
+    #     return redirect(url_for('main.calendar'))
     
     if request.method == 'POST':
         # 기존 HTML의 input name에 맞춰서 받기
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '')
-        remember = bool(request.form.get('remember'))
+        # remember = bool(request.form.get('remember'))
         
         if not username or not password:
             flash('아이디와 비밀번호를 모두 입력해주세요.')
@@ -32,7 +32,7 @@ def login():
                 session['unverified_user_id'] = user.id
                 return redirect(url_for('auth.verify_email'))
             
-            login_user(user, remember=remember)
+            login_user(user, remember=False)
             user.last_login = datetime.utcnow()
             db.session.commit()
             
@@ -46,17 +46,17 @@ def login():
 
 @auth.route('/signup', methods=['GET'])
 def signup():
-    """소셜 회원가입 선택 화면 - 기존 new_login.html 활용"""
-    if current_user.is_authenticated:
-        return redirect(url_for('main.calendar'))
+    # """소셜 회원가입 선택 화면 - 기존 new_login.html 활용"""
+    # if current_user.is_authenticated:
+    #     return redirect(url_for('main.calendar'))
     
     return render_template('new_login.html')
 
 @auth.route('/signup/form', methods=['GET', 'POST'])
 def signup_form():
-    """실제 회원가입 폼 처리"""
-    if current_user.is_authenticated:
-        return redirect(url_for('main.calendar'))
+    # """실제 회원가입 폼 처리"""
+    # if current_user.is_authenticated:
+    #     return redirect(url_for('main.calendar'))
     
     if request.method == 'POST':
         data = {

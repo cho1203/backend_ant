@@ -4,109 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANT TOGETHER - 캘린더</title>
-    <style>
-        body {
-            font-family: 'Montserrat', Arial, sans-serif;
-            background-color: #111;
-            color: #fff;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .header {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #0E0E0E;
-            border-radius: 15px;
-        }
-        .user-info {
-            background: #0E0E0E;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-        }
-        .logout-btn {
-            background: #fff;
-            color: #000;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 20px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-        .logout-btn:hover {
-            background: #f0f0f0;
-        }
-        .login-btn {
-            background: #007bff;
-            color: #fff;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 20px;
-            text-decoration: none;
-            display: inline-block;
-            margin: 10px;
-            cursor: pointer;
-        }
-        .login-btn:hover {
-            background: #0056b3;
-        }
-        .calendar-placeholder {
-            background: #0E0E0E;
-            padding: 40px;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main_calendar_style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🐜 ANT TOGETHER</h1>
-            <h2>캘린더 메인 페이지</h2>
-        </div>
-        
-        {% if user %}
-        <div class="user-info">
-            <h3>✅ 로그인 성공!</h3>
-            <h3>환영합니다, <strong>{{ user.username }}</strong>님!</h3>
-            <p>📧 이메일: {{ user.email }}</p>
-            <p>📅 가입일: {{ user.created_at.strftime('%Y년 %m월 %d일') }}</p>
-            {% if user.last_login %}
-                <p>🕐 마지막 로그인: {{ user.last_login.strftime('%Y-%m-%d %H:%M') }}</p>
-            {% endif %}
-            
-            <a href="{{ url_for('auth.logout') }}" class="logout-btn">로그아웃</a>
-        </div>
-        {% endif %}
-        
-        <div class="calendar-placeholder">
-            <h3>🚧 캘린더 기능 개발 중 🚧</h3>
-            <p><strong>✅ 로그인 시스템 구현 완료!</strong></p>
-            <p>다음 단계: 실제 캘린더 기능 구현</p>
-            
-            <div style="margin-top: 30px;">
-                <h4>🧪 테스트 완료된 기능들:</h4>
-                <ul style="text-align: left; display: inline-block;">
-                    <li>✅ 회원가입</li>
-                    <li>✅ 이메일 인증</li>
-                    <li>✅ 로그인/로그아웃</li>
-                    <li>✅ 아이디 찾기</li>
-                    <li>✅ 비밀번호 찾기/재설정</li>
-                    <li>✅ 로그인 유지 기능</li>
-                </ul>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <div class="left-icons">
+                <span class="menu-icon">☰</span>
             </div>
+            <button class="main-button">Main page</button>
+        </div>
+        
+        <div class="date-display">
+            <div class="text-icon">
+                <span class="year-text">2025</span>
+                <img src="{{ url_for('static', filename='images/under_tab.png') }}" alt="dropdown" class="dropdown-icon">
+            </div>
+            <div class="text-icon">
+                <span class="year-text">8</span>
+                <img src="{{ url_for('static', filename='images/under_tab.png') }}" alt="dropdown" class="dropdown-icon">
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <span class="arrow left">‹</span>
+            <span class="arrow right">›</span>
+        </div>
+        
+        <div class="weekdays">
+            <div>SUN</div>
+            <div>MON</div>
+            <div>TUE</div>
+            <div>WED</div>
+            <div>THU</div>
+            <div>FRI</div>
+            <div>SAT</div>
+        </div>
+        
+        <div class="days-grid">
+            <div class="day inactive">27</div>
+            <div class="day inactive">28</div>
+            <div class="day inactive">29</div>
+            <div class="day inactive">30</div>
+            <div class="day inactive">31</div>
+            <div class="day">1</div>
+            <div class="day">2</div>
             
-            <div style="margin-top: 20px;">
-                <a href="{{ url_for('auth.logout') }}" class="login-btn">로그아웃 후 로그인 테스트</a>
+            <div class="day today">3</div>
+            <div class="day">4</div>
+            <div class="day">5</div>
+            <div class="day">6</div>
+            <div class="day">7</div>
+            <div class="day">8</div>
+            <div class="day">9</div>
+            
+            <div class="day">10</div>
+            <div class="day">11</div>
+            <div class="day">12</div>
+            <div class="day">13</div>
+            <div class="day">14</div>
+            <div class="day">15</div>
+            <div class="day">16</div>
+            
+            <div class="day">17</div>
+            <div class="day">18</div>
+            <div class="day">19</div>
+            <div class="day">20</div>
+            <div class="day">21</div>
+            <div class="day">22</div>
+            <div class="day">23</div>
+            
+            <div class="day">24</div>
+            <div class="day">25</div>
+            <div class="day">26</div>
+            <div class="day">27</div>
+            <div class="day">28</div>
+            <div class="day">29</div>
+            <div class="day">30</div>
+            
+            <div class="day">31</div>
+            <div class="day inactive">1</div>
+            <div class="day inactive">2</div>
+            <div class="day inactive">3</div>
+            <div class="day inactive">4</div>
+            <div class="day inactive">5</div>
+            <div class="day inactive">6</div>
+        </div>
+    </div>
+
+    <!-- 팝업 오버레이 -->
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- 년/월 선택 팝업 -->
+    <div class="popup" id="popup">
+        <h3>날짜 선택</h3>
+        <div class="picker">
+            <select id="yearSelect"></select>
+            <select id="monthSelect"></select>
+            <button onclick="closePopup()">확인</button>
+        </div>
+    </div>
+
+    <!-- 일정 추가 팝업 -->
+    <div class="schedule-overlay" id="scheduleOverlay"></div>
+    <div class="schedule-popup" id="schedulePopup">
+        <div class="popup-header">
+            <span class="close-btn" onclick="closeSchedulePopup()">×</span>
+            <span class="check-btn" onclick="saveSchedule()">✓</span>
+        </div>
+        <div class="popup-content">
+            <button class="color-button">일정</button>
+            <div class="add-item">
+                <span class="circle">○</span> 새 항목 추가
+            </div>
+            <div class="input-row">
+                <input type="text" id="scheduleInput" placeholder="일정을 입력하세요...">
+                <button class="plus-btn">+</button>
             </div>
         </div>
     </div>
+
+    <script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
 </body>
 </html>
