@@ -16,19 +16,19 @@
         </div>
         
         <div class="date-display">
-            <div class="text-icon">
-                <span class="year-text">2025</span>
+            <div class="text-icon" onclick="openPicker()">
+                <span id="year" class="year-text">2025</span>
                 <img src="{{ url_for('static', filename='images/under_tab.png') }}" alt="dropdown" class="dropdown-icon">
             </div>
-            <div class="text-icon">
-                <span class="year-text">8</span>
+            <div class="text-icon" onclick="openPicker()">
+                <span id="month" class="year-text">8</span>
                 <img src="{{ url_for('static', filename='images/under_tab.png') }}" alt="dropdown" class="dropdown-icon">
             </div>
         </div>
         
         <div class="navigation">
-            <span class="arrow left">‹</span>
-            <span class="arrow right">›</span>
+            <span class="arrow left" onclick="changeMonth(-1)">‹</span>
+            <span class="arrow right" onclick="changeMonth(1)">›</span>
         </div>
         
         <div class="weekdays">
@@ -41,59 +41,14 @@
             <div>SAT</div>
         </div>
         
-        <div class="days-grid">
-            <div class="day inactive">27</div>
-            <div class="day inactive">28</div>
-            <div class="day inactive">29</div>
-            <div class="day inactive">30</div>
-            <div class="day inactive">31</div>
-            <div class="day">1</div>
-            <div class="day">2</div>
-            
-            <div class="day today">3</div>
-            <div class="day">4</div>
-            <div class="day">5</div>
-            <div class="day">6</div>
-            <div class="day">7</div>
-            <div class="day">8</div>
-            <div class="day">9</div>
-            
-            <div class="day">10</div>
-            <div class="day">11</div>
-            <div class="day">12</div>
-            <div class="day">13</div>
-            <div class="day">14</div>
-            <div class="day">15</div>
-            <div class="day">16</div>
-            
-            <div class="day">17</div>
-            <div class="day">18</div>
-            <div class="day">19</div>
-            <div class="day">20</div>
-            <div class="day">21</div>
-            <div class="day">22</div>
-            <div class="day">23</div>
-            
-            <div class="day">24</div>
-            <div class="day">25</div>
-            <div class="day">26</div>
-            <div class="day">27</div>
-            <div class="day">28</div>
-            <div class="day">29</div>
-            <div class="day">30</div>
-            
-            <div class="day">31</div>
-            <div class="day inactive">1</div>
-            <div class="day inactive">2</div>
-            <div class="day inactive">3</div>
-            <div class="day inactive">4</div>
-            <div class="day inactive">5</div>
-            <div class="day inactive">6</div>
+        <!-- 중요: ID 추가하고 내용 비우기 -->
+        <div id="daysGrid" class="days-grid">
+            <!-- JavaScript가 여기에 날짜들을 동적으로 생성합니다 -->
         </div>
     </div>
 
     <!-- 팝업 오버레이 -->
-    <div class="overlay" id="overlay"></div>
+    <div class="overlay" id="overlay" onclick="closePicker()"></div>
     
     <!-- 년/월 선택 팝업 -->
     <div class="popup" id="popup">
@@ -101,26 +56,32 @@
         <div class="picker">
             <select id="yearSelect"></select>
             <select id="monthSelect"></select>
-            <button onclick="closePopup()">확인</button>
+            <button onclick="applyPicker()">확인</button>
         </div>
     </div>
 
     <!-- 일정 추가 팝업 -->
-    <div class="schedule-overlay" id="scheduleOverlay"></div>
+    <div class="schedule-overlay" id="scheduleOverlay" onclick="closeSchedulePopup()"></div>
     <div class="schedule-popup" id="schedulePopup">
         <div class="popup-header">
             <span class="close-btn" onclick="closeSchedulePopup()">×</span>
-            <span class="check-btn" onclick="saveSchedule()">✓</span>
+            <span id="popupDateText">날짜</span>
+            <span class="check-btn" id="saveScheduleBtn">✓</span>
         </div>
         <div class="popup-content">
-            <button class="color-button">일정</button>
-            <div class="add-item">
-                <span class="circle">○</span> 새 항목 추가
-            </div>
-            <div class="input-row">
-                <input type="text" id="scheduleInput" placeholder="일정을 입력하세요...">
-                <button class="plus-btn">+</button>
-            </div>
+            <input type="text" id="titleInput" placeholder="일정 제목" class="form-control">
+            
+            <select id="colorSelect" class="form-control">
+                <option value="#2196f3">파랑</option>
+                <option value="#4caf50">초록</option>
+                <option value="#ff9800">주황</option>
+                <option value="#f44336">빨강</option>
+            </select>
+            
+            <input type="time" id="alarmTime" class="form-control">
+            <input type="text" id="scheduleInput" placeholder="일정 내용..." class="form-control">
+            
+            <ul id="scheduleList" class="schedule-list"></ul>
         </div>
     </div>
 

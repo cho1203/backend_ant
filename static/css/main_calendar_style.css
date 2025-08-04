@@ -230,9 +230,9 @@ body {
   width: 100%;
   max-width: 393px;
   height: 80%;
-  background-color: #000;
+  background-color: #f9f9f9;
   border-radius: 25px 25px 0 0;
-  color: #fff;
+  color: #000;
   padding: 20px;
   z-index: 51;
   transition: bottom 0.4s ease;
@@ -247,11 +247,14 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .close-btn, .check-btn {
   font-size: 1.3rem;
   cursor: pointer;
+  color: #000;
+  font-weight: bold;
 }
 
 /* 내용 */
@@ -363,10 +366,11 @@ body {
 .schedule-list-container {
   margin-top: 15px;
   padding: 10px;
-  background: #000000;
+  background: #f9f9f9;
   border-radius: 10px;
   max-height: 100px;
   overflow-y: auto;
+  border: 1px solid #ddd;
 }
 
 .schedule-list {

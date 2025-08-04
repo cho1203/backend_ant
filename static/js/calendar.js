@@ -20,8 +20,8 @@ function renderMonthOptions() {
 }
 
 function renderCalendar(year, month) {
-  yearEl.innerHTML = `${year}<img src="../images/under_tab.png" class="social-img">`;
-  monthEl.innerHTML = `${month + 1}<img src="../images/under_tab.png" class="social-img">`;
+  yearEl.textContent = year;
+  monthEl.textContent = month + 1;
 
   const firstDay = new Date(year, month, 1).getDay();
   const lastDate = new Date(year, month + 1, 0).getDate();
