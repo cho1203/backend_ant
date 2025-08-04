@@ -39,12 +39,15 @@ def create_app():
         from models.user import User
         return User.query.get(int(user_id))
     
-    # 블루프린트 등록
+    # 🆕 블루프린트 등록 (순서 중요!)
     from routes.auth import auth
     from routes.main import main
+    # 🔧 API 임포트를 create_app 함수 내부로 이동
+    from routes.api import api
     
     app.register_blueprint(auth, url_prefix='/auth')
     app.register_blueprint(main)
+    app.register_blueprint(api)  # 🆕 API 블루프린트 등록
     
     # 메인 라우트 - 무조건 로그인 페이지로 (강제 로그아웃)
     @app.route('/')
@@ -78,11 +81,14 @@ def create_app():
         </div>
         """, 500
     
-    # 데이터베이스 초기화
+    # 🆕 데이터베이스 초기화 (SimpleSchedule 모델 포함) - 완전 수정된 부분
     with app.app_context():
         from models.user import User
+        from routes.api import SimpleSchedule  # 🆕 SimpleSchedule 모델 임포트
         
+        # 🆕 모든 테이블 생성 (User + SimpleSchedule)
         db.create_all()
+        print("🗄️ 데이터베이스 테이블 생성 완료")
         
         # 테스트 사용자 생성 (개발용)
         if not User.query.filter_by(username='admin001').first():
@@ -97,6 +103,102 @@ def create_app():
             db.session.add(test_user)
             db.session.commit()
             print("✅ 테스트 사용자 생성: admin001 / admin123!")
+        
+        # 🆕 테스트 일정 데이터 생성 (개발용) - 완전히 새로 작성
+        try:
+            existing_schedules = SimpleSchedule.query.filter_by(user_id='admin001').count()
+            print(f"🔍 기존 일정 개수: {existing_schedules}")
+            
+            if existing_schedules == 0:
+                from datetime import date, time
+                
+                sample_schedules = [
+                    {
+                        'user_id': 'admin001',
+                        'schedule_date': date(2025, 8, 6),
+                        'title': '🎨 디자인 작업',
+                        'schedule_time': time(9, 0),
+                        'color': '#2196f3',
+                        'description': 'UI 디자인 작업'
+                    },
+                    {
+                        'user_id': 'admin001',
+                        'schedule_date': date(2025, 8, 7),
+                        'title': '🤝 클라이언트 미팅',
+                        'schedule_time': time(14, 0),
+                        'color': '#4caf50',
+                        'description': '프로젝트 논의'
+                    },
+                    {
+                        'user_id': 'admin001',
+                        'schedule_date': date(2025, 8, 8),
+                        'title': '📚 스터디 모임',
+                        'schedule_time': time(10, 30),
+                        'color': '#ff9800',
+                        'description': '기술 스터디'
+                    },
+                    {
+                        'user_id': 'admin001',
+                        'schedule_date': date(2025, 8, 9),
+                        'title': '🍗 친구들과 치킨',
+                        'schedule_time': time(19, 0),
+                        'color': '#f44336',
+                        'description': '친구 모임'
+                    },
+                    {
+                        'user_id': 'admin001',
+                        'schedule_date': date(2025, 8, 10),
+                        'title': '💪 헬스장 운동',
+                        'schedule_time': time(7, 0),
+                        'color': '#9c27b0',
+                        'description': '주말 운동'
+                    },
+                    {
+                        'user_id': 'admin001',
+                        'schedule_date': date(2025, 8, 13),
+                        'title': '🏥 병원 방문',
+                        'schedule_time': time(15, 30),
+                        'color': '#ff5722',
+                        'description': '정기 검진'
+                    },
+                    {
+                        'user_id': 'admin001',
+                        'schedule_date': date(2025, 8, 15),
+                        'title': '🎬 영화 관람',
+                        'schedule_time': time(20, 0),
+                        'color': '#673ab7',
+                        'description': '친구와 영화보기'
+                    }
+                ]
+                
+                # 각 일정을 하나씩 추가하면서 로그 출력
+                for i, schedule_data in enumerate(sample_schedules, 1):
+                    schedule = SimpleSchedule(**schedule_data)
+                    db.session.add(schedule)
+                    print(f"📅 [{i}/{len(sample_schedules)}] 테스트 일정 추가: {schedule_data['title']} ({schedule_data['schedule_date']}) {schedule_data['schedule_time']}")
+                
+                # 모든 일정을 한 번에 커밋
+                db.session.commit()
+                print(f"✅ 테스트 일정 {len(sample_schedules)}개 생성 완료!")
+                
+                # 생성된 일정 검증
+                created_schedules = SimpleSchedule.query.filter_by(user_id='admin001').count()
+                print(f"🔍 생성 후 일정 개수: {created_schedules}")
+                
+            else:
+                print(f"ℹ️ 기존 일정이 {existing_schedules}개 있으므로 테스트 일정을 생성하지 않습니다.")
+                
+                # 기존 일정 목록 출력 (개발 참고용)
+                existing_list = SimpleSchedule.query.filter_by(user_id='admin001').order_by(SimpleSchedule.schedule_date).all()
+                print("📋 기존 일정 목록:")
+                for schedule in existing_list:
+                    print(f"   - {schedule.title} ({schedule.schedule_date})")
+                    
+        except Exception as e:
+            print(f"❌ 테스트 일정 생성 오류: {e}")
+            import traceback
+            print(f"🔍 상세 오류: {traceback.format_exc()}")
+            db.session.rollback()
     
     return app
 
@@ -105,4 +207,5 @@ if __name__ == '__main__':
     print("🚀 ANT TOGETHER 서버 시작!")
     print("📍 접속 주소: http://127.0.0.1:5000")
     print("👤 테스트 계정: admin001 / admin123!")
+    print("📅 테스트 일정이 자동으로 생성됩니다!")
     app.run(debug=True, host='0.0.0.0', port=5000)
