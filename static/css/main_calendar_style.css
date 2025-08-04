@@ -114,7 +114,7 @@ body {
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
-  padding: 4px;
+  padding: 2px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -341,18 +341,48 @@ body {
 
 /* 라벨 하나 */
 .label {
-  font-size: 11px;
+  font-size: 10px;
   color: white;
   background-color: #2196f3;
-  padding: 2px 4px;
-  border-radius: 3px;
-  margin-top: 2px;
+  padding: 2px;
+  border-radius: 2px;
+  margin-top: 1px;
   max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 500;             /* 추가: 가독성 향상 */
+  line-height: 1.1;             /* 추가: 줄 높이 조정 */
 }
 
+/* 🆕 툴팁 스타일 추가 - 호버시 전체 텍스트 표시 */
+.label[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  background: #333;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  z-index: 1000;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  pointer-events: none;         /* 툴팁이 마우스 이벤트 방해하지 않도록 */
+}
+
+/* 🆕 추가적인 호버 효과 - 라벨 자체도 확장 */
+.label:hover {
+  white-space: normal;
+  overflow: visible;
+  z-index: 10;
+  position: relative;
+  max-width: 150px;
+  background-color: rgba(33, 150, 243, 0.9);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
 
 .popup-content input[type="text"] {
   width: 100%;
@@ -412,4 +442,3 @@ body {
   font-size: 0.75rem;
   color: #666;
 }
-
