@@ -18,6 +18,7 @@ body {
   margin-top: 50px;
   box-sizing: border-box;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  position: relative; /* 🔧 추가: 드롭다운 위치 기준점 */
 }
 
 .calendar-header {
@@ -25,6 +26,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  position: relative; /* 🔧 추가: 드롭다운 위치 기준점 */
 }
 
 .left-icons {
@@ -42,8 +44,19 @@ body {
   cursor: pointer;
 }
 
-.menu-icon {
+/* 🔧 햄버거 메뉴 아이콘 (캘린더 헤더용) */
+.calendar-header .menu-icon {
   font-size: 1.2rem;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.calendar-header .menu-icon:hover {
+  color: #00bfff;
+  background-color: rgba(0, 191, 255, 0.1);
 }
 
 .date-display {
@@ -185,11 +198,10 @@ body {
   cursor: pointer;
 }
 
-
 .text-icon {
   display: flex;
-  align-items: center;     /* 수직 가운데 정렬 */
-  gap: 5px;                /* 텍스트와 아이콘 사이 간격 */
+  align-items: center;
+  gap: 5px;
 }
 
 .year-text {
@@ -199,15 +211,15 @@ body {
 }
 
 .dropdown-icon {
-  width: 16px;             /* 아이콘 크기 */
+  width: 16px;
   height: auto;
-  opacity: 0.4;            /* 흐릿한 효과 */
+  opacity: 0.4;
 }
 
 .day.selected {
-  background-color: #222;   /* 선택 시 배경 진하게 */
-  color: #fff;              /* 텍스트 흰색 */
-  border-radius: 0%;       /* 원형 강조 (선택사항) */
+  background-color: #222;
+  color: #fff;
+  border-radius: 0%;
 }
 
 /* 오버레이 */
@@ -250,11 +262,16 @@ body {
   margin-bottom: 20px;
 }
 
-.close-btn, .check-btn {
+/* 🔧 스케줄 팝업용 close-btn, check-btn */
+.schedule-popup .close-btn, 
+.schedule-popup .check-btn {
   font-size: 1.3rem;
   cursor: pointer;
   color: #000;
   font-weight: bold;
+  background: none;
+  border: none;
+  padding: 5px;
 }
 
 /* 내용 */
@@ -351,11 +368,11 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-weight: 500;             /* 추가: 가독성 향상 */
-  line-height: 1.1;             /* 추가: 줄 높이 조정 */
+  font-weight: 500;
+  line-height: 1.1;
 }
 
-/* 🆕 툴팁 스타일 추가 - 호버시 전체 텍스트 표시 */
+/* 툴팁 스타일 */
 .label[title]:hover::after {
   content: attr(title);
   position: absolute;
@@ -370,10 +387,9 @@ body {
   left: 0;
   margin-bottom: 2px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  pointer-events: none;         /* 툴팁이 마우스 이벤트 방해하지 않도록 */
+  pointer-events: none;
 }
 
-/* 🆕 추가적인 호버 효과 - 라벨 자체도 확장 */
 .label:hover {
   white-space: normal;
   overflow: visible;
@@ -411,11 +427,6 @@ body {
 }
 
 .schedule-list li {
-  padding: 2px 0;
-  border-bottom: 1px solid #000000;
-}
-
-.schedule-list li {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -441,4 +452,111 @@ body {
 .schedule-alarm {
   font-size: 0.75rem;
   color: #666;
+}
+
+/* 🔧 작은 드롭다운 메뉴 관련 CSS - 완전히 새로 작성 */
+
+/* 드롭다운 오버레이 (투명) */
+.sidebar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  z-index: 15;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 작은 드롭다운 메뉴 */
+.sidebar {
+  position: absolute;
+  top: 45px; /* 햄버거 메뉴 바로 아래 */
+  left: 650px; /* 햄버거 메뉴 위치에 맞춤 */
+  width: 140px; /* 작은 폭 */
+  background-color: #000;
+  color: white;
+  z-index: 999;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(-5px) scale(0.95);
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.sidebar.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 헤더 제거 (프로필 정보 없음) */
+.sidebar-header {
+  display: none;
+}
+
+/* 드롭다운 콘텐츠만 */
+.sidebar-content {
+  padding: 5px 0;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list li {
+  margin: 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.menu-item:hover {
+  background-color: #333;
+  color: white;
+}
+
+.menu-item.active {
+  background-color: #00bfff;
+  color: white;
+}
+
+/* 작은 메뉴 아이콘 */
+.sidebar .menu-icon {
+  font-size: 14px;
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* close-btn 숨기기 */
+.sidebar .close-btn {
+  display: none;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 480px) {
+  .sidebar {
+    width: 120px;
+    left: 8px;
+    top: 40px;
+  }
 }

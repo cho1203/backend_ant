@@ -7,10 +7,45 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main_calendar_style.css') }}">
 </head>
 <body>
+    <!-- 🆕 사이드바 오버레이 -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+    
+    <!-- 🆕 사이드바 메뉴 -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="profile-section">
+                <div class="profile-avatar"></div>
+                <div class="profile-info">
+                    <h3>사용자</h3>
+                    <p>ant@example.com</p>
+                </div>
+            </div>
+            <button class="close-btn" onclick="closeSidebar()">×</button>
+        </div>
+        
+        <div class="sidebar-content">
+            <ul class="menu-list">
+                <li><a href="/chat" class="menu-item">
+                    <span class="menu-icon">🤖</span>
+                    <span>AI CHAT</span>
+                </a></li>
+                <li><a href="/calendar" class="menu-item active">
+                    <span class="menu-icon">📅</span>
+                    <span>new calendar</span>
+                </a></li>
+                <li><a href="#" class="menu-item">
+                    <span class="menu-icon">👥</span>
+                    <span>친구추가</span>
+                </a></li>
+            </ul>
+        </div>
+    </div>
+
     <div class="calendar-container">
         <div class="calendar-header">
             <div class="left-icons">
-                <span class="menu-icon">☰</span>
+                <!-- 🔧 햄버거 메뉴에 onclick 이벤트 추가 -->
+                <span class="menu-icon" onclick="openSidebar()">☰</span>
             </div>
             <button class="main-button">Main page</button>
         </div>
@@ -86,5 +121,27 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
+    
+    <!-- 🆕 사이드바 JavaScript -->
+    <script>
+        function openSidebar() {
+            document.getElementById('sidebar').classList.add('active');
+            document.getElementById('sidebarOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden'; // 스크롤 방지
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto'; // 스크롤 복원
+        }
+
+        // ESC 키로 사이드바 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSidebar();
+            }
+        });
+    </script>
 </body>
 </html>

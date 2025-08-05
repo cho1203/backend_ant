@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat UI</title>
+  <link rel="stylesheet" href="../css/chat_engine_style.css" />
+</head>
+<body>
+  <div class="chat-container">
+    
+    <!-- 상단 영역 -->
+    <div class="top-bar">
+      <div class="profile-icon"></div>
+      <button class="new-button">New</button>
+    </div>
+
+    <!-- 메시지 출력 영역 -->
+    <div class="chat-box">
+      <div class="message user-message">
+        <div class="message-content">Create a Ssamsing Calendar</div>
+        <div class="ai-icon"></div>
+      </div>
+    </div>
+
+    <!-- 하단 입력 영역 -->
+    <div class="chat-input">
+      <button class="plus-button">+</button>
+      <input type="text" placeholder="Type your message here..." />
+      <button class="send-button">➤</button>
+    </div>
+
+  </div>
+  <!-- 기존 html 하단에 추가 -->
+<div class="image-popup" id="imagePopup">
+  <div class="popup-content">
+    <label class="upload-label" for="imageInput">사진 업로드</label>
+    <input type="file" id="imageInput" accept=".png,.jpg,.jpeg" hidden />
+    <button class="image-send-button">⬆️</button>
+  </div>
+</div>
+
+</body>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const input = document.querySelector(".chat-input input");
+  const sendButton = document.querySelector(".send-button");
+  const chatBox = document.querySelector(".chat-box");
+  const newButton = document.querySelector(".new-button");
+
+  sendButton.addEventListener("click", sendMessage);
+  newButton.addEventListener("click", resetChat);
+
+  function sendMessage() {
+    const message = input.value.trim();
+    if (message === "") return;
+
+    // 1. 사용자 메시지를 오른쪽 정렬로 출력
+    const userMessage = createMessage(message, "user");
+    chatBox.appendChild(userMessage);
+
+    // 2. 입력창 비우기
+    input.value = "";
+
+    // 3. 서버로 메시지 전송
+    fetch("/api/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Message saved:", data);
+      })
+      .catch((error) => {
+        console.error("Error sending message:", error);
+      });
+
+    // 4. 아래 if문은 AI가 응답 메시지를 보내는 시뮬레이션용임
+    // 예시: 사용자가 'calendar' 라는 단어를 입력하면 AI도 반응함
+    if (message.toLowerCase().includes("calendar")) {
+      setTimeout(() => {
+        const aiReply = createMessage("Sure! Your Ssamsing Calendar has been created.", "ai");
+        chatBox.appendChild(aiReply);
+      }, 1000); // 1초 후 자동 응답
+    }
+  }
+
+  // 메시지 HTML 요소 생성
+  function createMessage(text, sender) {
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `message ${sender}-message`;
+
+    const contentDiv = document.createElement("div");
+    contentDiv.className = "message-content";
+    contentDiv.textContent = text;
+
+    if (sender === "ai") {
+      const iconDiv = document.createElement("div");
+      iconDiv.className = "ai-icon";
+      messageDiv.appendChild(iconDiv);
+      messageDiv.appendChild(contentDiv);
+    } else {
+      messageDiv.appendChild(contentDiv);
+      const iconDiv = document.createElement("div");
+      iconDiv.className = "ai-icon";
+      messageDiv.appendChild(iconDiv);
+    }
+
+    return messageDiv;
+  }
+
+  // "New" 버튼 클릭 시 전체 초기화
+  function resetChat() {
+    chatBox.innerHTML = ""; // 화면 초기화
+
+    // DB 초기화 요청 (백엔드에 DELETE API 있다고 가정)
+    fetch("/api/messages", {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Chat reset:", data);
+      })
+      .catch((error) => {
+        console.error("Error resetting chat:", error);
+      });
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const plusButton = document.querySelector(".plus-button");
+  const imagePopup = document.getElementById("imagePopup");
+  const imageInput = document.getElementById("imageInput");
+  const imageSendButton = document.querySelector(".image-send-button");
+  const chatBox = document.querySelector(".chat-box");
+
+  let selectedImageFile = null;
+
+  // + 버튼 클릭 시 팝업창 보이기/숨기기
+  plusButton.addEventListener("click", () => {
+    imagePopup.classList.toggle("show");
+  });
+
+  // 이미지 선택
+  imageInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+    if (!allowedTypes.includes(file.type)) {
+      alert("지원하는 이미지 형식은 .png, .jpg, .jpeg 입니다.");
+      imageInput.value = "";
+      return;
+    }
+
+    selectedImageFile = file;
+  });
+
+  // 전송 버튼 클릭
+  imageSendButton.addEventListener("click", () => {
+    if (!selectedImageFile) {
+      alert("이미지를 먼저 선택해주세요.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      // 화면에 이미지 출력
+      const imageMessage = document.createElement("div");
+      imageMessage.className = "message user-message";
+
+      const contentDiv = document.createElement("div");
+      contentDiv.className = "message-content";
+
+      const imgTag = document.createElement("img");
+      imgTag.src = e.target.result;
+      contentDiv.appendChild(imgTag);
+
+      const iconDiv = document.createElement("div");
+      iconDiv.className = "ai-icon";
+
+      imageMessage.appendChild(contentDiv);
+      imageMessage.appendChild(iconDiv);
+      chatBox.appendChild(imageMessage);
+
+      // 서버로 전송 (FormData)
+      const formData = new FormData();
+      formData.append("image", selectedImageFile);
+
+      fetch("/api/upload-image", {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("이미지 업로드 성공:", data);
+        })
+        .catch((err) => {
+          console.error("이미지 업로드 실패:", err);
+        });
+
+      // 초기화
+      imageInput.value = "";
+      selectedImageFile = null;
+      imagePopup.classList.remove("show");
+    };
+    reader.readAsDataURL(selectedImageFile);
+  });
+});
+
+</script>
+
+</html>
