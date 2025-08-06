@@ -1,0 +1,142 @@
+/* 전체 화면 설정 및 가운데 정렬 */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* 고정된 모바일 화면 크기 */
+.container {
+  width: 393px;
+  height: 852px;
+  background-color: #000;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  padding: 20px 15px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* 헤더 */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 80px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.menu-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.icon-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* 공지 카드 */
+.notice-card {
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 20px 0;
+}
+
+.card-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.card-date {
+  font-size: 12px;
+  color: gray;
+}
+
+.card-link {
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* 메뉴 리스트 */
+.board-menu, .board-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.board-menu li,
+.board-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 5px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.board-menu li:hover,
+.board-list li:hover {
+  background-color: #111;
+}
+
+/* 아이콘 */
+.menu-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+/* 제목 */
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+/* 구분선 */
+.divider {
+  margin: 15px 0;
+  border: none;
+  border-top: 1px solid #444;
+}
+
+/* N 태그 */
+.new-tag {
+  color: red;
+  font-weight: bold;
+  margin-left: 6px;
+}
+
+.icon-img2 {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-left: 8px;
+}
+
+.icon-img3 {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  margin-left: 8px;
+}

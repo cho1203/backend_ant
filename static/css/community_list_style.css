@@ -1,0 +1,133 @@
+/* 전체 및 중앙 정렬 */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* 모바일 프레임 */
+.container {
+  width: 393px;
+  height: 852px;
+  background-color: #000;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  padding: 20px 15px;
+  box-sizing: border-box;
+  position: relative;
+  overflow-y: auto;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* 상단 구성 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 80px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.menu-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.icon-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+/* 게시글 리스트 */
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 70px; /* 글쓰기 버튼 공간 확보 */
+}
+
+.post {
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 4px;
+}
+
+.post-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  margin-top: 4px;
+}
+
+.post-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.post-meta {
+  font-size: 12px;
+  color: gray;
+}
+
+/* 글쓰기 버튼 */
+.write-button {
+  position: fixed;
+  bottom: 30px;
+  right: calc(50% - 393px / 2 + 20px); /* 모바일 중앙 기준으로 오른쪽에 위치 */
+  background-color: white;
+  color: black;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.write-button img {
+  width: 20px;
+  height: 20px;
+}

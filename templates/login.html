@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANT TOGETHER - 로그인</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login_style.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- ANT TOGETHER 로고 이미지 (텍스트 + 개미 아이콘이 포함된 이미지) -->
+    <img src="/static/images/ant-icon.png" alt="ANT TOGETHER" class="logo-image">
+    
+    <form method="POST">
+      <div class="input-box">
+        <i class="fas fa-user"></i>
+        <input type="text" name="username" placeholder="Antogether ID" required>
+      </div>
+      
+      <div class="input-box">
+        <i class="fas fa-lock"></i>
+        <input type="password" name="password" placeholder="비밀번호" required>
+      </div>
+      
+      <button type="submit" class="btn login-btn">로그인</button>
+      
+      <div class="options">
+        <a href="/auth/find-id">아이디 찾기</a>
+        <span style="margin: 0 5px;">|</span>
+        <a href="/auth/find-password">비밀번호 찾기</a>
+      </div>
+    </form>
+    
+    <!-- 소셜 로그인 -->
+    <div class="social-login">
+      <div class="social-icon naver">
+        <img src="{{ url_for('static', filename='images/naver.png') }}" alt="네이버" onerror="this.parentElement.innerHTML='N';">
+      </div>
+      <div class="social-icon kakao">
+        <img src="{{ url_for('static', filename='images/kakao.png') }}" alt="카카오" onerror="this.parentElement.innerHTML='K';">
+      </div>
+      <div class="social-icon google">
+        <img src="{{ url_for('static', filename='images/google.png') }}" alt="구글" onerror="this.parentElement.innerHTML='G';">
+      </div>
+      <div class="social-icon apple">
+        <img src="{{ url_for('static', filename='images/apple.png') }}" alt="애플" onerror="this.parentElement.innerHTML='A';">
+      </div>
+    </div>
+    
+    <!-- 회원가입 -->
+    <div class="signup">
+      <a href="/auth/signup">회원가입</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=393, initial-scale=1.0">
+  <title>{{ board_name }} - Ssamsing Community</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/community_list_style.css') }}">
+  <style>
+    /* 기본 스타일 */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: white;
+      max-width: 393px;
+      margin: 0 auto;
+    }
+    
+    .container {
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #333;
+    }
+    
+    .back-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    
+    .title {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+    .menu-icons span {
+      margin: 0 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .board-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    
+    .post-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .post-item {
+      background: #222;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 1px solid #333;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .post-item:hover {
+      background: #333;
+    }
+    
+    .post-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    
+    .post-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+    
+    .post-title {
+      font-weight: bold;
+      flex: 1;
+    }
+    
+    .post-meta {
+      font-size: 12px;
+      color: #999;
+      margin-top: 5px;
+    }
+    
+    .write-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: #4CAF50;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    
+    /* 🆕 게시글 상세보기 모달 */
+    .post-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .post-modal.active {
+      display: flex;
+    }
+    
+    .post-detail {
+      background: #111;
+      border-radius: 10px;
+      width: 350px;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 20px;
+      position: relative;
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    
+    .post-content {
+      margin: 20px 0;
+      line-height: 1.6;
+    }
+    
+    .post-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0;
+      padding: 10px 0;
+      border-top: 1px solid #333;
+    }
+    
+    .action-btn {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+    
+    .action-btn:hover {
+      background: #333;
+    }
+    
+    .like-btn.liked {
+      color: #ff4757;
+    }
+    
+    .bookmark-section {
+      display: flex;
+      align-items: center;
+    }
+    
+    .bookmark-img {
+      width: 20px;
+      height: 20px;
+      margin-left: 5px;
+    }
+    
+    /* 댓글 섹션 */
+    .comments-section {
+      border-top: 1px solid #333;
+      padding-top: 15px;
+    }
+    
+    .comments-header {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .comment-input-area {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .comment-input {
+      flex: 1;
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 5px;
+      padding: 8px;
+      color: white;
+    }
+    
+    .comment-submit {
+      background: #4CAF50;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    
+    .comment-list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    .comment-card {
+      background: #1a1a1a;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+    
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    
+    .profile-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .profile-icon {
+      background: #333;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 10px;
+    }
+    
+    .nickname {
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .comment-actions {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .comment-like-btn {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 10px;
+    }
+    
+    .comment-like-btn.liked {
+      color: #4CAF50;
+    }
+    
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #ff4757;
+      cursor: pointer;
+      font-size: 10px;
+    }
+    
+    .comment-body {
+      font-size: 12px;
+      margin: 5px 0;
+    }
+    
+    .comment-time {
+      font-size: 10px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 헤더 -->
+    <header class="header">
+      <button class="back-btn" onclick="history.back()">←</button>
+      <div class="title">Ssamsing community</div>
+      <div class="menu-icons">
+        <span>👤</span>
+        <span>👤</span>
+        <span>👤</span>
+      </div>
+    </header>
+    
+    <!-- 게시판 제목 -->
+    <div class="board-title">{{ board_name or '비밀게시판' }}</div>
+    
+    <!-- 게시글 목록 -->
+    <ul class="post-list">
+      <li class="post-item" onclick="openPost('항금', '11월 12월 쨔 | 익명', '비밀 게시글 내용입니다...')">
+        <div class="post-header">
+          <span class="post-icon">📁</span>
+          <span class="post-title">항금</span>
+        </div>
+        <div class="post-meta">🔒 11월 12월 쨔 | 익명</div>
+      </li>
+      
+      <li class="post-item" onclick="openPost('잇어머 왜 이래', '8월 12월 쨔 | 익명', '오늘 정말 이상한 일이 있었어요...')">
+        <div class="post-header">
+          <span class="post-icon">📁</span>
+          <span class="post-title">잇어머 왜 이래</span>
+        </div>
+        <div class="post-meta">🔒 8월 12월 쨔 | 익명</div>
+      </li>
+      
+      <li class="post-item" onclick="openPost('집식 뭐 먹으시 허리영 30분째', '11월 12월 쨔 | 익명', '점심 메뉴 추천 좀 해주세요...')">
+        <div class="post-header">
+          <span class="post-icon">📁</span>
+          <span class="post-title">집식 뭐 먹으시 허리영 30분째</span>
+        </div>
+        <div class="post-meta">🔒 11월 12월 쨔 | 익명</div>
+      </li>
+      
+      <li class="post-item" onclick="openPost('우리 레어 얄얄 옯러는 기도은 일어넘', '8월 12월 쨔 | 익명', '오늘 있었던 재미있는 이야기...')">
+        <div class="post-header">
+          <span class="post-icon">📁</span>
+          <span class="post-title">우리 레어 얄얄 옯러는 기도은 일어넘</span>
+        </div>
+        <div class="post-meta">🔒 8월 12월 쨔 | 익명</div>
+      </li>
+      
+      <li class="post-item" onclick="openPost('아코르 허러컨 걸 어릭니', '11월 12월 쨔 | 익명', '궁금한게 있는데 물어봐도 될까요?')">
+        <div class="post-header">
+          <span class="post-icon">📁</span>
+          <span class="post-title">아코르 허러컨 걸 어릭니</span>
+        </div>
+        <div class="post-meta">🔒 11월 12월 쨔 | 익명</div>
+      </li>
+      
+      <li class="post-item" onclick="openPost('다자어너 이걸 봐 이래저 에드거요', '11월 12월 쨔 | 익명', '신기한 걸 발견했어요!')">
+        <div class="post-header">
+          <span class="post-icon">📁</span>
+          <span class="post-title">다자어너 이걸 봐 이래저 에드거요</span>
+        </div>
+        <div class="post-meta">🔒 11월 12월 쨔 | 익명</div>
+      </li>
+      
+      <li class="post-item" onclick="openPost('긴어 너 기쁘서 쓰댇 걸 쓰기', '11월 12월 쨔 | 익명', '오늘 정말 기뻤던 일이 있어서 공유해요!')">
+        <div class="post-header">
+          <span class="post-icon">📁</span>
+          <span class="post-title">긴어 너 기쁘서 쓰댇 걸 쓰기</span>
+        </div>
+        <div class="post-meta">🔒 11월 12월 쨔 | 익명</div>
+      </li>
+    </ul>
+    
+    <!-- 글쓰기 버튼 -->
+    <button class="write-btn" onclick="writePost()">✏️</button>
+  </div>
+  
+  <!-- 🆕 게시글 상세보기 모달 -->
+  <div class="post-modal" id="postModal">
+    <div class="post-detail">
+      <button class="close-modal" onclick="closePost()">&times;</button>
+      
+      <h3 id="modalTitle">게시글 제목</h3>
+      <div id="modalMeta" class="post-meta">작성자 정보</div>
+      <div id="modalContent" class="post-content">게시글 내용</div>
+      
+      <!-- 좋아요, 북마크 액션 -->
+      <div class="post-actions">
+        <button class="action-btn like-btn" id="likeBtn" onclick="handleLike()">
+          👍 <span id="likeCount">24</span>
+        </button>
+        
+        <div class="bookmark-section">
+          <input type="checkbox" id="bookmarkCheck" onchange="handleBookmark(this)" style="display: none;">
+          <label for="bookmarkCheck">
+            <img id="bookmarkImg" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'><path d='M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z'/></svg>" alt="북마크" class="bookmark-img" style="cursor: pointer;">
+          </label>
+        </div>
+      </div>
+      
+      <!-- 댓글 섹션 -->
+      <div class="comments-section">
+        <div class="comments-header">댓글 <span id="commentCount">3</span>개</div>
+        
+        <div class="comment-input-area">
+          <input type="text" id="commentInput" class="comment-input" placeholder="댓글을 입력하세요...">
+          <button class="comment-submit" onclick="addComment()">등록</button>
+        </div>
+        
+        <div class="comment-list" id="commentList">
+          <!-- 기본 댓글들 -->
+          <div class="comment-card">
+            <div class="comment-header">
+              <div class="profile-info">
+                <div class="profile-icon">익명</div>
+                <div class="nickname">익명</div>
+              </div>
+              <div class="comment-actions">
+                <button class="comment-like-btn" onclick="handleCommentLike(this)">👍 <span>2</span></button>
+                <button class="delete-btn" onclick="deleteComment(this)">×</button>
+              </div>
+            </div>
+            <div class="comment-body">정말 공감되는 글이네요!</div>
+            <div class="comment-time">2시간 전</div>
+          </div>
+          
+          <div class="comment-card">
+            <div class="comment-header">
+              <div class="profile-info">
+                <div class="profile-icon">익명</div>
+                <div class="nickname">익명</div>
+              </div>
+              <div class="comment-actions">
+                <button class="comment-like-btn" onclick="handleCommentLike(this)">👍 <span>0</span></button>
+                <button class="delete-btn" onclick="deleteComment(this)">×</button>
+              </div>
+            </div>
+            <div class="comment-body">저도 비슷한 경험이 있어요</div>
+            <div class="comment-time">1시간 전</div>
+          </div>
+          
+          <div class="comment-card">
+            <div class="comment-header">
+              <div class="profile-info">
+                <div class="profile-icon">익명</div>
+                <div class="nickname">익명</div>
+              </div>
+              <div class="comment-actions">
+                <button class="comment-like-btn" onclick="handleCommentLike(this)">👍 <span>1</span></button>
+                <button class="delete-btn" onclick="deleteComment(this)">×</button>
+              </div>
+            </div>
+            <div class="comment-body">좋은 내용 감사합니다</div>
+            <div class="comment-time">30분 전</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // 🆕 게시글 관련 변수들
+    let likeClicked = false;
+    let isBookmarked = false;
+    
+    // 🆕 게시글 상세보기 열기
+    function openPost(title, meta, content) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalMeta').textContent = meta;
+      document.getElementById('modalContent').textContent = content;
+      document.getElementById('postModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    // 🆕 게시글 상세보기 닫기
+    function closePost() {
+      document.getElementById('postModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+    
+    // 🆕 좋아요 기능
+    function handleLike() {
+      if (likeClicked) return;
+      
+      const likeCountSpan = document.getElementById('likeCount');
+      let count = parseInt(likeCountSpan.innerText);
+      likeCountSpan.innerText = count + 1;
+      
+      const likeBtn = document.getElementById('likeBtn');
+      likeBtn.classList.add('liked');
+      
+      likeClicked = true;
+      console.log('👍 좋아요 클릭됨');
+    }
+    
+    // 🆕 북마크 기능
+    function handleBookmark(checkbox) {
+      const bookmarkImg = document.getElementById('bookmarkImg');
+      
+      if (checkbox.checked) {
+        // 체크된 북마크 이미지 (노란색)
+        bookmarkImg.src = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='%23FFD700' viewBox='0 0 24 24'><path d='M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z'/></svg>";
+        isBookmarked = true;
+      } else {
+        // 기본 북마크 이미지 (흰색)
+        bookmarkImg.src = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'><path d='M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z'/></svg>";
+        isBookmarked = false;
+      }
+      
+      console.log('🔖 북마크 상태:', isBookmarked);
+    }
+    
+    // 🆕 댓글 추가 기능
+    function addComment() {
+      const input = document.getElementById('commentInput');
+      const commentText = input.value.trim();
+      
+      if (commentText === '') return;
+      
+      const commentList = document.getElementById('commentList');
+      
+      const commentCard = document.createElement('div');
+      commentCard.className = 'comment-card';
+      
+      commentCard.innerHTML = `
+        <div class="comment-header">
+          <div class="profile-info">
+            <div class="profile-icon">익명</div>
+            <div class="nickname">익명</div>
+          </div>
+          <div class="comment-actions">
+            <button class="comment-like-btn" onclick="handleCommentLike(this)">👍 <span>0</span></button>
+            <button class="delete-btn" onclick="deleteComment(this)">×</button>
+          </div>
+        </div>
+        <div class="comment-body">${commentText}</div>
+        <div class="comment-time">방금 전</div>
+      `;
+      
+      commentList.appendChild(commentCard);
+      input.value = '';
+      
+      // 댓글 수 업데이트
+      const commentCountSpan = document.getElementById('commentCount');
+      let currentCount = parseInt(commentCountSpan.innerText);
+      commentCountSpan.innerText = currentCount + 1;
+      
+      console.log('💬 댓글 추가됨:', commentText);
+    }
+    
+    // 🆕 댓글 좋아요 기능
+    function handleCommentLike(button) {
+      const countSpan = button.querySelector('span');
+      let count = parseInt(countSpan.innerText);
+      
+      if (!button.classList.contains('liked')) {
+        count += 1;
+        button.classList.add('liked');
+        countSpan.innerText = count;
+        console.log('👍 댓글 좋아요 클릭');
+      }
+    }
+    
+    // 🆕 댓글 삭제 기능
+    function deleteComment(button) {
+      const commentCard = button.closest('.comment-card');
+      commentCard.remove();
+      
+      const commentCountSpan = document.getElementById('commentCount');
+      let currentCount = parseInt(commentCountSpan.innerText);
+      commentCountSpan.innerText = Math.max(0, currentCount - 1);
+      
+      console.log('🗑️ 댓글 삭제됨');
+    }
+    
+    // 🆕 글쓰기 기능
+    function writePost() {
+      alert('글쓰기 기능은 준비 중입니다!');
+      console.log('✏️ 글쓰기 버튼 클릭');
+    }
+    
+    // Enter 키로 댓글 등록
+    document.getElementById('commentInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        addComment();
+      }
+    });
+    
+    // 모달 외부 클릭 시 닫기
+    document.getElementById('postModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closePost();
+      }
+    });
+    
+    console.log('✅ 커뮤니티 리스트 페이지 로드 완료');
+  </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANT TOGETHER - 이메일 인증</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login_style.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container">
+    <img src="{{ url_for('static', filename='images/ant-icon.png') }}" alt="ant" class="ant-image">
+    
+    <h2 class="verify-title">이메일 인증</h2>
+    <p class="verify-info">{{ email }}로<br>인증번호를 발송했습니다.</p>
+    
+    <!-- Flash 메시지 표시 -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for message in messages %}
+            <div class="flash-message">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    
+    <form method="POST">
+      <div class="input-box">
+        <i class="fas fa-key"></i>
+        <input type="text" name="verification_code" placeholder="6자리 인증번호" 
+               maxlength="6" pattern="[0-9]{6}" required>
+      </div>
+      
+      <button type="submit" class="login-btn">인증 완료</button>
+    </form>
+    
+    <div class="resend-section">
+      <p class="resend-text">인증번호를 받지 못하셨나요?</p>
+      <button type="button" class="resend-btn" onclick="resendVerification()">재발송</button>
+    </div>
+    
+    <div class="back-link">
+      <a href="{{ url_for('auth.login') }}">로그인으로 돌아가기</a>
+    </div>
+  </div>
+  
+  <style>
+    .verify-title {
+      color: #fff;
+      font-size: 1.8rem;
+      margin: 20px 0 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    .verify-info {
+      color: #aaa;
+      font-size: 0.95rem;
+      text-align: center;
+      margin-bottom: 30px;
+      line-height: 1.4;
+    }
+    
+    .flash-messages {
+      margin: 10px 0;
+      width: 90%;
+    }
+    
+    .flash-message {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      padding: 10px;
+      border-radius: 15px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .resend-section {
+      margin: 20px 0;
+      text-align: center;
+    }
+    
+    .resend-text {
+      color: #aaa;
+      font-size: 0.85rem;
+      margin-bottom: 10px;
+    }
+    
+    .resend-btn {
+      background: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    
+    .resend-btn:hover {
+      background: #fff;
+      color: #000;
+    }
+    
+    .back-link {
+      margin-top: 30px;
+    }
+    
+    .back-link a {
+      color: #aaa;
+      text-decoration: underline;
+      font-size: 0.85rem;
+    }
+  </style>
+  
+  <script>
+    function resendVerification() {
+      fetch('{{ url_for("auth.resend_verification") }}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('인증 이메일이 재발송되었습니다.');
+        } else {
+          alert('재발송에 실패했습니다: ' + data.message);
+        }
+      })
+      .catch(error => {
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
+      });
+    }
+  </script>
+</body>
+</html>

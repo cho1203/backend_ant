@@ -1,0 +1,174 @@
+/* 전체 정렬 및 배경 */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* 모바일 프레임 */
+.container {
+  width: 393px;
+  height: 852px;
+  background-color: #000;
+  color: white;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  padding: 20px 15px;
+  box-sizing: border-box;
+  position: relative;
+  overflow-y: auto;
+}
+
+/* 헤더 영역 */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.icon-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  margin-left: 8px;
+}
+
+.icon-img2 {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-left: 8px;
+}
+
+.icon-img3 {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  margin-left: 8px;
+}
+
+/* 스크롤 카드 */
+.scroll-section {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.scroll-section::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-cards {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.card {
+  background: white;
+  color: black;
+  border-radius: 10px;
+  padding: 15px;
+  min-width: 140px;
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+.card-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.card-date {
+  font-size: 12px;
+  color: gray;
+}
+
+.card-link {
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* 버튼 메뉴 */
+.icon-menu {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.menu-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 60px;
+}
+
+.menu-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+/* HOT 게시판 */
+.hot-board, .favorite-board {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.hot-box {
+  background: white;
+  color: black;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.new-tag {
+  color: red;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+/* 즐겨찾기 */
+.favorite-board .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.favorite-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.favorite-list li {
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.p2{
+    font-size: 14px;
+    margin-top: 20px;
+}

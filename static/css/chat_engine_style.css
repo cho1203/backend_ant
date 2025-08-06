@@ -1,0 +1,207 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #fff;
+}
+/* 사용자 메시지: 오른쪽 정렬 + 아이콘 왼쪽 여백 */
+.message {
+  display: flex;
+  align-items: flex-start; /* ✅ 프로필이 위에 정렬되도록 */
+  gap: 10px;
+  margin: 10px;
+}
+
+.user-message {
+    justify-content: flex-end;
+    flex-direction: row;
+}
+.user-message .ai-icon {
+    order: 2; /* 아이콘을 오른쪽으로 이동 */
+}
+
+.chat-container {
+  width: 360px;
+  height: 780px;
+  border: 1px solid #ccc;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+/* 상단 바 */
+.top-bar {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.profile-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #000;
+  border: 3px solid #0af;
+  margin-right: 10px;
+}
+
+.new-button {
+  padding: 4px 12px;
+  border: 1px solid #000;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* 메시지 박스 */
+.chat-box {
+  padding: 20px;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+
+
+/* 입력창 */
+.chat-input {
+  background-color: #000;
+  color: white;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 12px;
+  outline: none;
+  font-size: 14px;
+  margin: 0 8px;
+  color: black;
+}
+
+.plus-button,
+.send-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.chat-wrapper {
+  width: 393px;   /* ✅ 실제 모바일 UI 크기 맞춰서 조정 */
+  margin: 0 auto;
+  position: relative;
+}
+
+.message-content {
+  background-color: #eee;
+  padding: 10px 15px;
+  border-radius: 16px;
+  font-size: 14px;
+  max-width: 75%;
+  word-wrap: break-word;
+  font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif
+}
+  .user-message {
+  justify-content: flex-end;
+}
+.ai-message {
+  justify-content: flex-start;
+}
+
+/* AI 메시지: 왼쪽 정렬 + 아이콘 오른쪽 여백 */
+.ai-message {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  flex-direction: row;
+  margin-bottom: 10px;
+  gap: 8px; /* ✅ 아이콘과 메시지 사이 간격 추가 */
+}
+
+/* 프로필 아이콘 */
+.ai-icon {
+  width: 32px;
+  height: 32px;
+  background-color: #000;
+  border-radius: 50%;
+  background-image: url('/static/images/ant-icon.png'); /* 예시용, 없으면 그냥 검정 동그라미 */
+  background-size: cover;
+  background-position: center;
+}
+
+/* 팝업창 */
+/* ✅ 팝업: 전체화면 → 채팅 박스 안에서만 보이도록 변경 */
+.image-popup {
+  position: fixed;
+  bottom: 0; /* ✅ 맨 아래에서 시작 */
+  left: 0;
+  width: 100%;
+  background-color: #000;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  color: white;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+  padding: 20px;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.image-popup.show {
+  transform: translateY(0); /* ✅ 위로 올라오게 */
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ai-message .ai-icon {
+    order: 1; /* 아이콘을 왼쪽에 유지 */
+}
+.ai-message .message-content {
+    order: 2; /* 메시지 내용을 오른쪽으로 배치 */
+}
+
+.popup-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.upload-label {
+  padding: 12px 24px;
+  background-color: #222;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.image-send-button {
+  background: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* 이미지 메시지 속 이미지 스타일 */
+.message-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}

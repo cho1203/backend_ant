@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=393, initial-scale=1.0">
+  <title>Ssamsing Community</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/community_style.css') }}">
+  <style>
+    /* 임시 스타일 - CSS 파일이 로드되지 않을 경우 */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #000;
+      color: white;
+      max-width: 393px;
+      margin: 0 auto;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+      border: 1px solid #ccc;
+      padding: 5px 10px;
+      border-radius: 10px;
+    }
+    .scroll-cards {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .card {
+      background: white;
+      color: black;
+      border-radius: 10px;
+      padding: 15px;
+      min-width: 140px;
+      flex: 1;
+    }
+    .icon-menu {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+    .menu-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      background: #333;
+      border-radius: 10px;
+      cursor: pointer;
+      flex: 1;
+      margin: 0 5px;
+    }
+    .menu-button:hover {
+      background: #555;
+    }
+    .hot-board, .favorite-board {
+      margin: 20px 0;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .hot-box {
+      background: white;
+      color: black;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .favorite-list {
+      list-style: none;
+      padding: 0;
+      border: 1px solid #666;
+      border-radius: 10px;
+      padding: 15px;
+    }
+    .favorite-list li {
+      margin-bottom: 8px;
+      padding: 5px 0;
+      border-bottom: 1px solid #333;
+    }
+    .new-tag {
+      color: red;
+      font-weight: bold;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .more {
+      color: #999;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+     
+    <!-- 헤더 -->
+    <header class="header">
+      <div class="profile">👤</div>
+      <div class="title">Ssamsing community</div>
+      <div class="menu-icons">
+        <span style="margin: 0 5px;">🔍</span>
+        <span style="margin: 0 5px;">🔔</span>
+        <span style="margin: 0 5px;">☰</span>
+      </div>           
+    </header>
+         
+    <!-- 공지사항 & 오늘의 할일 -->
+    <div class="scroll-section">
+      <div class="scroll-cards">
+        <div class="card">
+          <p class="card-title"><strong>공지 사항</strong></p>
+          <p class="card-date">8월 6일 (화)</p>
+          <p class="card-link">회의록 작성 | 전체 보기</p>
+        </div>
+        <div class="card">
+          <p class="card-title"><strong>오늘의 할일</strong></p>
+          <p class="card-date">8월 6일 (화)</p>
+          <p class="card-link">추가 | 전체 보기</p>
+        </div>
+      </div>
+    </div>
+     
+    <!-- 버튼 메뉴 -->
+    <div class="icon-menu">
+      <div class="menu-button" onclick="location.href='{{ url_for('main_routes.calendar') }}'">
+        <div style="font-size: 24px;">📅</div>
+        <p>일정</p>
+      </div>
+      <div class="menu-button">
+        <div style="font-size: 24px;">📝</div>
+        <p>회의록</p>
+      </div>
+      <div class="menu-button">
+        <div style="font-size: 24px;">💡</div>
+        <p>기획안</p>
+      </div>
+      <div class="menu-button">
+        <div style="font-size: 24px;">🍴</div>
+        <p>주변 맛집</p>
+      </div>
+    </div>
+     
+    <!-- HOT 게시판 -->
+    <div class="hot-board">
+      <p class="section-title">HOT 게시판</p>
+      <div class="hot-box">연애게시판 <span class="new-tag">N</span></div>
+    </div>
+     
+    <!-- 즐겨찾는 게시판 -->
+    <div class="favorite-board">
+      <div class="section-header">
+        <span class="section-title">즐겨찾는 게시판</span>
+        <span class="more">더 보기 ▶</span>
+      </div>
+      <ul class="favorite-list">
+        <li>자유게시판 - 팀장님 점심 뭐 드실래요?</li>
+        <li>비밀게시판 - 점심 뭐 먹지? <span class="new-tag">N</span></li>
+        <li>정치게시판 - 요즘 정치 이슈는?</li>
+        <li>맛집게시판 - 주변 맛집 추천 좀...</li>
+      </ul>
+    </div>
+   
+  </div>
+  
+  <script>
+    console.log('✅ 커뮤니티 페이지 로드 완료');
+  </script>
+</body>
+</html>

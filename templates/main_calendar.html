@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANT TOGETHER - 캘린더</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main_calendar_style.css') }}">
+</head>
+<body>
+    <!-- 🆕 사이드바 오버레이 -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+    
+    <!-- 🆕 사이드바 메뉴 -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="profile-section">
+                <div class="profile-avatar"></div>
+                <div class="profile-info">
+                    <h3>사용자</h3>
+                    <p>ant@example.com</p>
+                </div>
+            </div>
+            <button class="close-btn" onclick="closeSidebar()">×</button>
+        </div>
+        
+        <div class="sidebar-content">
+            <ul class="menu-list">
+                <li><a href="/chat" class="menu-item">
+                    <span class="menu-icon">🤖</span>
+                    <span>AI CHAT</span>
+                </a></li>
+                <li><a href="/calendar" class="menu-item active">
+                    <span class="menu-icon">📅</span>
+                    <span>new calendar</span>
+                </a></li>
+                <li><a href="#" class="menu-item">
+                    <span class="menu-icon">➕👤</span>
+                    <span>친구추가</span>
+                </a></li>
+                <li><a href="#" class="menu-item">
+                    <span class="menu-icon">👥</span>
+                    <span>community</span>
+                </a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <div class="left-icons">
+                <!-- 🔧 햄버거 메뉴에 onclick 이벤트 추가 -->
+                <span class="menu-icon" onclick="openSidebar()">☰</span>
+            </div>
+            <button class="main-button">Main page</button>
+        </div>
+        
+        <div class="date-display">
+            <div class="text-icon" onclick="openPicker()">
+                <span id="year" class="year-text">2025</span>
+                <img src="{{ url_for('static', filename='images/under_tab.png') }}" alt="dropdown" class="dropdown-icon">
+            </div>
+            <div class="text-icon" onclick="openPicker()">
+                <span id="month" class="year-text">8</span>
+                <img src="{{ url_for('static', filename='images/under_tab.png') }}" alt="dropdown" class="dropdown-icon">
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <span class="arrow left" onclick="changeMonth(-1)">‹</span>
+            <span class="arrow right" onclick="changeMonth(1)">›</span>
+        </div>
+        
+        <div class="weekdays">
+            <div>SUN</div>
+            <div>MON</div>
+            <div>TUE</div>
+            <div>WED</div>
+            <div>THU</div>
+            <div>FRI</div>
+            <div>SAT</div>
+        </div>
+        
+        <!-- 중요: ID 추가하고 내용 비우기 -->
+        <div id="daysGrid" class="days-grid">
+            <!-- JavaScript가 여기에 날짜들을 동적으로 생성합니다 -->
+        </div>
+    </div>
+
+    <!-- 팝업 오버레이 -->
+    <div class="overlay" id="overlay" onclick="closePicker()"></div>
+    
+    <!-- 년/월 선택 팝업 -->
+    <div class="popup" id="popup">
+        <h3>날짜 선택</h3>
+        <div class="picker">
+            <select id="yearSelect"></select>
+            <select id="monthSelect"></select>
+            <button onclick="applyPicker()">확인</button>
+        </div>
+    </div>
+
+    <!-- 일정 추가 팝업 -->
+    <div class="schedule-overlay" id="scheduleOverlay" onclick="closeSchedulePopup()"></div>
+    <div class="schedule-popup" id="schedulePopup">
+        <div class="popup-header">
+            <span class="close-btn" onclick="closeSchedulePopup()">×</span>
+            <span id="popupDateText">날짜</span>
+            <span class="check-btn" id="saveScheduleBtn">✓</span>
+        </div>
+        <div class="popup-content">
+            <input type="text" id="titleInput" placeholder="일정 제목" class="form-control">
+            
+            <select id="colorSelect" class="form-control">
+                <option value="#2196f3">파랑</option>
+                <option value="#4caf50">초록</option>
+                <option value="#ff9800">주황</option>
+                <option value="#f44336">빨강</option>
+            </select>
+            
+            <input type="time" id="alarmTime" class="form-control">
+            <input type="text" id="scheduleInput" placeholder="일정 내용..." class="form-control">
+            
+            <ul id="scheduleList" class="schedule-list"></ul>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
+    
+    <!-- 🆕 사이드바 JavaScript -->
+    <script>
+        function openSidebar() {
+            document.getElementById('sidebar').classList.add('active');
+            document.getElementById('sidebarOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden'; // 스크롤 방지
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto'; // 스크롤 복원
+        }
+
+        // ESC 키로 사이드바 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSidebar();
+            }
+        });
+    </script>
+</body>
+</html>
