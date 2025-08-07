@@ -65,18 +65,37 @@ def community_restaurant():
 @login_required
 def community_post_detail(board_type, post_id):
     """게시글 상세보기 페이지"""
-    # 게시판 타입에 따른 이름 매핑
-    board_names = {
-        'secret': '비밀게시판',
-        'free': '자유게시판', 
-        'politics': '정치게시판',
-        'restaurant': '맛집게시판'
-    }
+    try:
+        # 게시판 타입에 따른 이름 매핑
+        board_names = {
+            'secret': '비밀게시판',
+            'free': '자유게시판', 
+            'politics': '정치게시판',
+            'restaurant': '맛집게시판'
+        }
+        
+        board_name = board_names.get(board_type, '게시판')
+        
+        return render_template('community_public.html', 
+                             board_name=board_name,
+                             board_type=board_type,
+                             post_id=post_id,
+                             user=current_user)
     
-    board_name = board_names.get(board_type, '게시판')
-    
-    return render_template('community_public.html', 
-                         board_name=board_name,
-                         board_type=board_type,
-                         post_id=post_id,
-                         user=current_user)
+    except Exception as e:
+        # 🔧 에러 발생시 디버깅 정보 표시
+        error_message = f"""
+        <html>
+        <head><title>템플릿 오류</title></head>
+        <body style="font-family: Arial; padding: 20px; background: #000; color: #fff;">
+            <h1>🔧 템플릿 오류가 발생했습니다</h1>
+            <p><strong>오류 내용:</strong> {str(e)}</p>
+            <p><strong>요청된 게시판:</strong> {board_type}</p>
+            <p><strong>게시글 ID:</strong> {post_id}</p>
+            <hr>
+            <p>📁 templates 폴더에 'community_public.html' 파일이 있는지 확인해주세요.</p>
+            <a href="/community/secret" style="color: #4CAF50;">← 비밀게시판으로 돌아가기</a>
+        </body>
+        </html>
+        """
+        return error_message

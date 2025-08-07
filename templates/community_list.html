@@ -240,6 +240,16 @@
       border-radius: 5px;
       padding: 10px;
       margin-bottom: 8px;
+      cursor: pointer; /* 🆕 클릭 가능하도록 */
+      transition: background 0.2s ease; /* 🆕 부드러운 전환 */
+    }
+
+    .comment-card:hover {
+      background: #2a2a2a; /* 🆕 호버 효과 */
+    }
+
+    .comment-card:active {
+      background: #333; /* 🆕 클릭 효과 */
     }
     
     .comment-header {
@@ -301,6 +311,95 @@
       font-size: 10px;
       color: #666;
     }
+
+    /* 🆕 노란색 네모 버튼 토스트 스타일 */
+    .toast-button {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #FFC107;
+      color: #000;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 10px rgba(255, 193, 7, 0.4);
+      z-index: 1001;
+      border: 1px solid #FFB300;
+      font-weight: 500;
+      min-width: 200px;
+    }
+
+    .toast-button.show {
+      display: block;
+      animation: slideUpFade 0.4s ease-out;
+    }
+
+    .toast-button:hover {
+      background: #FFD54F;
+      transform: translateX(-50%) translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 193, 7, 0.5);
+    }
+
+    .toast-button:active {
+      transform: translateX(-50%) translateY(0px);
+      box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+    }
+
+    .toast-button-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .toast-icon {
+      font-size: 16px;
+    }
+
+    .toast-count {
+      background: rgba(0, 0, 0, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .toast-text {
+      color: #000;
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    /* 애니메이션 */
+    @keyframes slideUpFade {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    .toast-button.hide {
+      animation: slideDownFade 0.3s ease-in forwards;
+    }
+
+    @keyframes slideDownFade {
+      from {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateX(-50%) translateY(30px);
+      }
+    }
   </style>
 </head>
 <body>
@@ -321,7 +420,7 @@
     
     <!-- 게시글 목록 -->
     <ul class="post-list">
-      <li class="post-item" onclick="openPost('항금', '11월 12월 쨔 | 익명', '비밀 게시글 내용입니다...')">
+      <li class="post-item" onclick="openPost('항금', '11월 12월 쨔 | 익명', '비밀 게시글 내용입니다...', 1)">
         <div class="post-header">
           <span class="post-icon">📁</span>
           <span class="post-title">항금</span>
@@ -329,7 +428,7 @@
         <div class="post-meta">🔒 11월 12월 쨔 | 익명</div>
       </li>
       
-      <li class="post-item" onclick="openPost('잇어머 왜 이래', '8월 12월 쨔 | 익명', '오늘 정말 이상한 일이 있었어요...')">
+      <li class="post-item" onclick="openPost('잇어머 왜 이래', '8월 12월 쨔 | 익명', '오늘 정말 이상한 일이 있었어요...', 2)">
         <div class="post-header">
           <span class="post-icon">📁</span>
           <span class="post-title">잇어머 왜 이래</span>
@@ -337,7 +436,7 @@
         <div class="post-meta">🔒 8월 12월 쨔 | 익명</div>
       </li>
       
-      <li class="post-item" onclick="openPost('집식 뭐 먹으시 허리영 30분째', '11월 12월 쨔 | 익명', '점심 메뉴 추천 좀 해주세요...')">
+      <li class="post-item" onclick="openPost('집식 뭐 먹으시 허리영 30분째', '11월 12월 쨔 | 익명', '점심 메뉴 추천 좀 해주세요...', 3)">
         <div class="post-header">
           <span class="post-icon">📁</span>
           <span class="post-title">집식 뭐 먹으시 허리영 30분째</span>
@@ -345,7 +444,7 @@
         <div class="post-meta">🔒 11월 12월 쨔 | 익명</div>
       </li>
       
-      <li class="post-item" onclick="openPost('우리 레어 얄얄 옯러는 기도은 일어넘', '8월 12월 쨔 | 익명', '오늘 있었던 재미있는 이야기...')">
+      <li class="post-item" onclick="openPost('우리 레어 얄얄 옯러는 기도은 일어넘', '8월 12월 쨔 | 익명', '오늘 있었던 재미있는 이야기...', 4)">
         <div class="post-header">
           <span class="post-icon">📁</span>
           <span class="post-title">우리 레어 얄얄 옯러는 기도은 일어넘</span>
@@ -353,7 +452,7 @@
         <div class="post-meta">🔒 8월 12월 쨔 | 익명</div>
       </li>
       
-      <li class="post-item" onclick="openPost('아코르 허러컨 걸 어릭니', '11월 12월 쨔 | 익명', '궁금한게 있는데 물어봐도 될까요?')">
+      <li class="post-item" onclick="openPost('아코르 허러컨 걸 어릭니', '11월 12월 쨔 | 익명', '궁금한게 있는데 물어봐도 될까요?', 5)">
         <div class="post-header">
           <span class="post-icon">📁</span>
           <span class="post-title">아코르 허러컨 걸 어릭니</span>
@@ -361,7 +460,7 @@
         <div class="post-meta">🔒 11월 12월 쨔 | 익명</div>
       </li>
       
-      <li class="post-item" onclick="openPost('다자어너 이걸 봐 이래저 에드거요', '11월 12월 쨔 | 익명', '신기한 걸 발견했어요!')">
+      <li class="post-item" onclick="openPost('다자어너 이걸 봐 이래저 에드거요', '11월 12월 쨔 | 익명', '신기한 걸 발견했어요!', 6)">
         <div class="post-header">
           <span class="post-icon">📁</span>
           <span class="post-title">다자어너 이걸 봐 이래저 에드거요</span>
@@ -369,7 +468,7 @@
         <div class="post-meta">🔒 11월 12월 쨔 | 익명</div>
       </li>
       
-      <li class="post-item" onclick="openPost('긴어 너 기쁘서 쓰댇 걸 쓰기', '11월 12월 쨔 | 익명', '오늘 정말 기뻤던 일이 있어서 공유해요!')">
+      <li class="post-item" onclick="openPost('긴어 너 기쁘서 쓰댇 걸 쓰기', '11월 12월 쨔 | 익명', '오늘 정말 기뻤던 일이 있어서 공유해요!', 7)">
         <div class="post-header">
           <span class="post-icon">📁</span>
           <span class="post-title">긴어 너 기쁘서 쓰댇 걸 쓰기</span>
@@ -415,46 +514,46 @@
         </div>
         
         <div class="comment-list" id="commentList">
-          <!-- 기본 댓글들 -->
-          <div class="comment-card">
+          <!-- 🆕 클릭 가능한 댓글 카드들 -->
+          <div class="comment-card" onclick="goToDetailPage()">
             <div class="comment-header">
               <div class="profile-info">
                 <div class="profile-icon">익명</div>
                 <div class="nickname">익명</div>
               </div>
               <div class="comment-actions">
-                <button class="comment-like-btn" onclick="handleCommentLike(this)">👍 <span>2</span></button>
-                <button class="delete-btn" onclick="deleteComment(this)">×</button>
+                <button class="comment-like-btn" onclick="event.stopPropagation(); handleCommentLike(this)">👍 <span>2</span></button>
+                <button class="delete-btn" onclick="event.stopPropagation(); deleteComment(this)">×</button>
               </div>
             </div>
             <div class="comment-body">정말 공감되는 글이네요!</div>
             <div class="comment-time">2시간 전</div>
           </div>
           
-          <div class="comment-card">
+          <div class="comment-card" onclick="goToDetailPage()">
             <div class="comment-header">
               <div class="profile-info">
                 <div class="profile-icon">익명</div>
                 <div class="nickname">익명</div>
               </div>
               <div class="comment-actions">
-                <button class="comment-like-btn" onclick="handleCommentLike(this)">👍 <span>0</span></button>
-                <button class="delete-btn" onclick="deleteComment(this)">×</button>
+                <button class="comment-like-btn" onclick="event.stopPropagation(); handleCommentLike(this)">👍 <span>0</span></button>
+                <button class="delete-btn" onclick="event.stopPropagation(); deleteComment(this)">×</button>
               </div>
             </div>
             <div class="comment-body">저도 비슷한 경험이 있어요</div>
             <div class="comment-time">1시간 전</div>
           </div>
           
-          <div class="comment-card">
+          <div class="comment-card" onclick="goToDetailPage()">
             <div class="comment-header">
               <div class="profile-info">
                 <div class="profile-icon">익명</div>
                 <div class="nickname">익명</div>
               </div>
               <div class="comment-actions">
-                <button class="comment-like-btn" onclick="handleCommentLike(this)">👍 <span>1</span></button>
-                <button class="delete-btn" onclick="deleteComment(this)">×</button>
+                <button class="comment-like-btn" onclick="event.stopPropagation(); handleCommentLike(this)">👍 <span>1</span></button>
+                <button class="delete-btn" onclick="event.stopPropagation(); deleteComment(this)">×</button>
               </div>
             </div>
             <div class="comment-body">좋은 내용 감사합니다</div>
@@ -464,14 +563,39 @@
       </div>
     </div>
   </div>
+
+  <!-- 🆕 노란색 네모 버튼 토스트 (수정됨) -->
+  <div class="toast-button" id="toastButton" onclick="goToDetailPage()">
+    <div class="toast-button-content">
+      <span class="toast-icon">👍</span>
+      <span class="toast-count">2</span>
+      <span class="toast-text">정말 공감되는 글이에요!</span>
+    </div>
+  </div>
   
   <script>
     // 🆕 게시글 관련 변수들
     let likeClicked = false;
     let isBookmarked = false;
     
-    // 🆕 게시글 상세보기 열기
-    function openPost(title, meta, content) {
+    // 🆕 현재 선택된 게시글 정보를 저장할 변수
+    let currentPostData = {
+      title: '',
+      meta: '',
+      content: '',
+      postId: 1
+    };
+    
+    // 🆕 게시글 상세보기 열기 (postId 추가)
+    function openPost(title, meta, content, postId = 1) {
+      // 현재 게시글 정보 저장
+      currentPostData = {
+        title: title,
+        meta: meta,
+        content: content,
+        postId: postId
+      };
+      
       document.getElementById('modalTitle').textContent = title;
       document.getElementById('modalMeta').textContent = meta;
       document.getElementById('modalContent').textContent = content;
@@ -483,9 +607,12 @@
     function closePost() {
       document.getElementById('postModal').classList.remove('active');
       document.body.style.overflow = 'auto';
+      
+      // 토스트 버튼도 함께 숨기기
+      hideToastButton();
     }
     
-    // 🆕 좋아요 기능
+    // 🆕 좋아요 기능 (토스트 버튼 표시 추가)
     function handleLike() {
       if (likeClicked) return;
       
@@ -497,7 +624,41 @@
       likeBtn.classList.add('liked');
       
       likeClicked = true;
+      
+      // 🆕 노란색 네모 버튼 토스트 표시
+      setTimeout(() => {
+        showToastButton();
+      }, 600);
+      
       console.log('👍 좋아요 클릭됨');
+    }
+    
+    // 🆕 노란색 네모 버튼 토스트 표시
+    function showToastButton() {
+      const toastBtn = document.getElementById('toastButton');
+      toastBtn.classList.add('show');
+      
+      console.log('🟨 네모 버튼 토스트 표시됨');
+      
+      // 4초 후 자동으로 사라짐
+      setTimeout(() => {
+        hideToastButton();
+      }, 4000);
+    }
+    
+    // 🆕 노란색 네모 버튼 토스트 숨기기
+    function hideToastButton() {
+      const toastBtn = document.getElementById('toastButton');
+      toastBtn.classList.add('hide');
+      
+      setTimeout(() => {
+        toastBtn.classList.remove('show', 'hide');
+      }, 300);
+    }
+    
+    // 🆕 네모 버튼 & 댓글 카드 클릭 시 상세보기 페이지로 이동
+    function goToDetailPage() {
+      window.location.href = '/community/secret/post/1';
     }
     
     // 🆕 북마크 기능
@@ -505,11 +666,9 @@
       const bookmarkImg = document.getElementById('bookmarkImg');
       
       if (checkbox.checked) {
-        // 체크된 북마크 이미지 (노란색)
         bookmarkImg.src = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='%23FFD700' viewBox='0 0 24 24'><path d='M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z'/></svg>";
         isBookmarked = true;
       } else {
-        // 기본 북마크 이미지 (흰색)
         bookmarkImg.src = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'><path d='M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z'/></svg>";
         isBookmarked = false;
       }
@@ -517,7 +676,7 @@
       console.log('🔖 북마크 상태:', isBookmarked);
     }
     
-    // 🆕 댓글 추가 기능
+    // 🆕 댓글 추가 기능 (클릭 이벤트도 포함)
     function addComment() {
       const input = document.getElementById('commentInput');
       const commentText = input.value.trim();
@@ -528,6 +687,7 @@
       
       const commentCard = document.createElement('div');
       commentCard.className = 'comment-card';
+      commentCard.onclick = goToDetailPage; // 🆕 새 댓글도 클릭 가능
       
       commentCard.innerHTML = `
         <div class="comment-header">
@@ -536,8 +696,8 @@
             <div class="nickname">익명</div>
           </div>
           <div class="comment-actions">
-            <button class="comment-like-btn" onclick="handleCommentLike(this)">👍 <span>0</span></button>
-            <button class="delete-btn" onclick="deleteComment(this)">×</button>
+            <button class="comment-like-btn" onclick="event.stopPropagation(); handleCommentLike(this)">👍 <span>0</span></button>
+            <button class="delete-btn" onclick="event.stopPropagation(); deleteComment(this)">×</button>
           </div>
         </div>
         <div class="comment-body">${commentText}</div>
@@ -547,7 +707,6 @@
       commentList.appendChild(commentCard);
       input.value = '';
       
-      // 댓글 수 업데이트
       const commentCountSpan = document.getElementById('commentCount');
       let currentCount = parseInt(commentCountSpan.innerText);
       commentCountSpan.innerText = currentCount + 1;
